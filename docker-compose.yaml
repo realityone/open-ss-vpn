@@ -1,0 +1,28 @@
+version: '3.4'
+services:
+  vpn:
+    build: ./
+    cap_add:
+      - net_admin
+      - sys_admin
+    environment:
+      - VPN_LOCATION=09-USA-Fremont-2
+      - SS_METHOD=chacha20-ietf-poly1305
+      - SS_PASSWORD=dangerous
+    restart: always
+    volumes:
+      - /dev/net:/dev/net:z
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=1
+      - net.ipv4.conf.all.rp_filter=2
+    ports:
+      - "1443:8388/tcp"
+      - "1443:8388/udp"
+    healthcheck:
+      test: ["CMD", "curl", "--socks5-hostname", "127.0.0.1:1080", "google.com"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 180s
+volumes:
+  vpnlocation:
