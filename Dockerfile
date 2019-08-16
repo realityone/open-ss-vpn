@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-ENV SHADOWSOCKS_VERSION v1.7.2-alpha.19
+ENV SHADOWSOCKS_VERSION v1.7.2
 
 RUN apt update && \
     apt install -y openvpn iproute2 wget curl iptables iputils* net-tools xz-utils supervisor && \
